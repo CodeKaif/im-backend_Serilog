@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IM.Notification.Data\IM.Notification.Data.csproj" />
+    <ProjectReference Include="..\IM.Notification.Dto\IM.Notification.Dto.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Middleware\Middleware.csproj" />
+  </ItemGroup>
+
+</Project>

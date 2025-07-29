@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>c8dd9179-ace7-4908-bb38-1899d1023316</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonApiCallHelper\CommonApiCallHelper.csproj" />
+    <ProjectReference Include="..\ConfigurationModel\ConfigurationModel.csproj" />
+    <ProjectReference Include="..\FileUploader\FileUploader.csproj" />
+    <ProjectReference Include="..\IM.CacheService\IM.CacheService.csproj" />
+    <ProjectReference Include="..\IM.Content.Dto\IM.Dto.csproj" />
+    <ProjectReference Include="..\IM.Service\IM.Service.csproj" />
+    <ProjectReference Include="..\Middleware\Middleware.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+services:
+  im.content:
+    image: ${DOCKER_REGISTRY-}imcontent
+    build:
+      context: .
+      dockerfile: IM.Content/Dockerfile
+  im.auth:
+    image: ${DOCKER_REGISTRY-}imauth
+    build:
+      context: .
+      dockerfile: IM.Auth/Dockerfile
+  im.notification:
+    image: ${DOCKER_REGISTRY-}imnotification
+    build:
+      context: .
+      dockerfile: IM.Notification/Dockerfile

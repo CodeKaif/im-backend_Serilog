@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonApiCallHelper\CommonApiCallHelper.csproj" />
+    <ProjectReference Include="..\EmailGateway\EmailGateway.csproj" />
+    <ProjectReference Include="..\IM.CacheService\IM.CacheService.csproj" />
+    <ProjectReference Include="..\IM.Content.Dto\IM.Dto.csproj" />
+    <ProjectReference Include="..\IM.Repository\IM.Repository.csproj" />
+    <ProjectReference Include="..\Middleware\Middleware.csproj" />
+    <ProjectReference Include="..\ResponseWrapper\ResponseWrapper.csproj" />
+  </ItemGroup>
+
+</Project>

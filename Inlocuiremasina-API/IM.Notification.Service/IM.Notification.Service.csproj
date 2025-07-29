@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmailGateway\EmailGateway.csproj" />
+    <ProjectReference Include="..\IM.Notification.Dto\IM.Notification.Dto.csproj" />
+    <ProjectReference Include="..\IM.Notification.Repository\IM.Notification.Repository.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Middleware\Middleware.csproj" />
+    <ProjectReference Include="..\ResponseWrapper\ResponseWrapper.csproj" />
+  </ItemGroup>
+
+</Project>
