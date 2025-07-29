@@ -3,8 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.MSSqlServer;
-using System.Collections.ObjectModel;
+using Serilog.Sinks.PostgreSQL;
+using Serilog.Sinks.PostgreSQL.ColumnWriters;
+using System.Collections.Generic;
 
 namespace Middleware.V1.Logging.Extension
 {
@@ -14,34 +15,27 @@ namespace Middleware.V1.Logging.Extension
         {
             var connectionString = configuration.GetConnectionString("LoggingDb");
 
-            var sinkOptions = new MSSqlServerSinkOptions
+            var columnWriters = new Dictionary<string, ColumnWriterBase>
             {
-                TableName = "ApplicationLogs",
-                AutoCreateSqlTable = true,
-                BatchPostingLimit = 1,
-                BatchPeriod = TimeSpan.FromMilliseconds(1),
-                UseSqlBulkCopy = false,
-                EagerlyEmitFirstEvent = true
-            };
-
-            var columnOptions = new ColumnOptions
-            {
-                AdditionalColumns = new Collection<SqlColumn>
-                {
-                    new SqlColumn { ColumnName = "ServiceName", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false },
-                    new SqlColumn { ColumnName = "UserId", DataType = System.Data.SqlDbType.Int, AllowNull = true },
-                    new SqlColumn { ColumnName = "Language", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
-                    new SqlColumn { ColumnName = "Method", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false },
-                    new SqlColumn { ColumnName = "Route", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false },
-                    new SqlColumn { ColumnName = "StatusCode", DataType = System.Data.SqlDbType.Int, AllowNull = false },
-                    new SqlColumn { ColumnName = "AuthorizationToken", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false },
-                    new SqlColumn { ColumnName = "ResponseTimeMs", DataType = System.Data.SqlDbType.Int, AllowNull = true },
-                    new SqlColumn { ColumnName = "ErrorMessage", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
-                    new SqlColumn { ColumnName = "StackTrace", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
-                    new SqlColumn { ColumnName = "FileName", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
-                    new SqlColumn { ColumnName = "LineNumber", DataType = System.Data.SqlDbType.Int, AllowNull = true },
-                    new SqlColumn { ColumnName = "CorrelationId", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false }
-                }
+                {"Message", new RenderedMessageColumnWriter() },
+                {"MessageTemplate", new MessageTemplateColumnWriter() },
+                {"Level", new LevelColumnWriter(true) },
+                {"TimeStamp", new TimestampColumnWriter() },
+                {"Exception", new ExceptionColumnWriter() },
+                {"Properties", new LogEventSerializedColumnWriter() },
+                {"ServiceName", new SinglePropertyColumnWriter("ServiceName") },
+                {"UserId", new SinglePropertyColumnWriter("UserId") },
+                {"Language", new SinglePropertyColumnWriter("Language") },
+                {"Method", new SinglePropertyColumnWriter("Method") },
+                {"Route", new SinglePropertyColumnWriter("Route") },
+                {"StatusCode", new SinglePropertyColumnWriter("StatusCode") },
+                {"AuthorizationToken", new SinglePropertyColumnWriter("AuthorizationToken") },
+                {"ResponseTimeMs", new SinglePropertyColumnWriter("ResponseTimeMs") },
+                {"ErrorMessage", new SinglePropertyColumnWriter("ErrorMessage") },
+                {"StackTrace", new SinglePropertyColumnWriter("StackTrace") },
+                {"FileName", new SinglePropertyColumnWriter("FileName") },
+                {"LineNumber", new SinglePropertyColumnWriter("LineNumber") },
+                {"CorrelationId", new SinglePropertyColumnWriter("CorrelationId") }
             };
 
             Log.Logger = new LoggerConfiguration()
@@ -51,10 +45,11 @@ namespace Middleware.V1.Logging.Extension
                   .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) // Prevents noise from framework logs
                   .WriteTo.Debug()
                   .WriteTo.Console()
-                  .WriteTo.MSSqlServer(
+                  .WriteTo.PostgreSQL(
                       connectionString: connectionString,
-                      sinkOptions: sinkOptions,
-                      columnOptions: columnOptions,
+                      tableName: "ApplicationLogs",
+                      needAutoCreateTable: true,
+                      columnOptions: columnWriters,
                       restrictedToMinimumLevel: LogEventLevel.Verbose)
                   .CreateLogger();
 
