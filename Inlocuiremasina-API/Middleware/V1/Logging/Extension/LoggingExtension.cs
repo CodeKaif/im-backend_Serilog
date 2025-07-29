@@ -39,7 +39,8 @@ namespace Middleware.V1.Logging.Extension
                     new SqlColumn { ColumnName = "ErrorMessage", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
                     new SqlColumn { ColumnName = "StackTrace", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
                     new SqlColumn { ColumnName = "FileName", DataType = System.Data.SqlDbType.NVarChar, AllowNull = true },
-                    new SqlColumn { ColumnName = "LineNumber", DataType = System.Data.SqlDbType.Int, AllowNull = true }
+                    new SqlColumn { ColumnName = "LineNumber", DataType = System.Data.SqlDbType.Int, AllowNull = true },
+                    new SqlColumn { ColumnName = "CorrelationId", DataType = System.Data.SqlDbType.NVarChar, AllowNull = false }
                 }
             };
 
