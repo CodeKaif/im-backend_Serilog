@@ -74,6 +74,7 @@ namespace Middleware.V1.Logging
             using (LogContext.PushProperty("Route", logData.Route))
             using (LogContext.PushProperty("StatusCode", logData.StatusCode))
             using (LogContext.PushProperty("ResponseTimeMs", logData.ResponseTimeMs))
+            using (LogContext.PushProperty("CorrelationId", requestMetadata.correlationId))
             {
                 Log.Information($"Success: {logData.Method} {logData.Route} responded with {logData.StatusCode} in {logData.ResponseTimeMs}ms");
             }
@@ -100,6 +101,7 @@ namespace Middleware.V1.Logging
             using (LogContext.PushProperty("FileName", fileName))
             using (LogContext.PushProperty("LineNumber", lineNumber))
             using (LogContext.PushProperty("ResponseTimeMs", elapsedMs))
+            using (LogContext.PushProperty("CorrelationId", requestMetadata.correlationId))
             {
                 Log.Error($"Error: {context.Request.Method} {context.Request.Path} responded with {statusCode} in {elapsedMs}ms");
             }
